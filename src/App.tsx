@@ -3,11 +3,9 @@ import Filter from "./components/Filter.tsx";
 import ToDoInput from "./components/ToDoInput.tsx";
 import ToDoList from "./components/ToDoList.tsx";
 import { useAppDispatch, useAppSelector } from "./store/hooks.ts";
-import {
-  activeTasksSelector,
-  completedTasksSelector,
-} from "./store/selectors/activeTasksSelector.ts";
+import { activeTasksSelector } from "./store/selectors/activeTasksSelector.ts";
 import { deleteToDo } from "@/store/toDoSlice.ts";
+import { completedTasksSelector } from "@/store/selectors/completedTasksSelector.ts";
 
 function App() {
   const activeTasks = useAppSelector(activeTasksSelector);
