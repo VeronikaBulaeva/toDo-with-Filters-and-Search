@@ -1,12 +1,24 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import Filter from "./components/Filter.tsx";
 import ToDoInput from "./components/ToDoInput.tsx";
 import ToDoList from "./components/ToDoList.tsx";
-import { useAppSelector } from "./store/hooks.ts";
-import { activeTasksSelector } from "./store/selectors/activeTasksSelector.ts";
+import { useAppDispatch, useAppSelector } from "./store/hooks.ts";
+import {
+  activeTasksSelector,
+  completedTasksSelector,
+} from "./store/selectors/activeTasksSelector.ts";
+import { deleteToDo } from "@/store/toDoSlice.ts";
 
 function App() {
   const activeTasks = useAppSelector(activeTasksSelector);
+  const completedTasks = useAppSelector(completedTasksSelector);
+  const dispatch = useAppDispatch();
+
+  const deleteCompletedTasks = () => {
+    completedTasks.map((task) => {
+      dispatch(deleteToDo(task.id));
+    });
+  };
 
   return (
     <Grid
@@ -33,9 +45,15 @@ function App() {
         </Typography>
         <Filter />
         <ToDoInput />
-        <Typography variant="subtitle2" mt={1}>
-          Активные задачи: {activeTasks.length}
-        </Typography>
+
+        <Grid display="flex" justifyContent="space-between">
+          <Typography variant="subtitle2" mt={1}>
+            Активные задачи: {activeTasks.length}
+          </Typography>
+          <Button color="primary" onClick={deleteCompletedTasks}>
+            Удалить выполненные
+          </Button>
+        </Grid>
         <ToDoList />
       </Box>
     </Grid>
